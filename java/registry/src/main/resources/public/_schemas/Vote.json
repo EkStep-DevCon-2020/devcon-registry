@@ -3,11 +3,11 @@
   "type": "object",
   "$comment": "Vote schema definition",
   "properties": {
-    "votes": {
+    "Vote": {
       "$ref": "#/definitions/Vote"
     }
   },
-  "title":"votes",
+  "title":"Vote",
   "_osConfig": {
       "indexFields": ["visitorCode","ideaCode"],
       "uniqueIndexFields": [],
@@ -27,15 +27,14 @@
         "timestamp": {
           "$id": "#/properties/timestamp",
           "type": "string",
-          "format": "date-time",
           "examples": [
             "2017-09-23T20:21:34Z"
           ]
         },
         "visitorCode": {
-          "$id": "#/properties/ideaCode",
+          "$id": "#/properties/visitorCode",
           "type": "string",
-          "$comment": "idea code",
+          "$comment": "visitor code",
           "examples": [
             "VIS1"
           ]

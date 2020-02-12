@@ -22,9 +22,9 @@
       ],
       "optional": [
         "org",
-        "points",
         "votes",
-        "photo"
+        "photo",
+        "activities"
       ],
       "additionalProperties": false,
       "properties": {
@@ -60,11 +60,14 @@
           "format":"URI",
           "title": "Photo Url of visitor"
         },
-        "points": {
-          "$id": "#/properties/points",
-          "type": "integer",
-          "$comment": "points given to this visitor"
-        }
+        "activities": {
+            "$id": "#/properties/activities",
+            "type": "array",
+            "items": {
+              "$ref": "VisitorActivity.json#/definitions/VisitorActivity"
+            },
+            "$comment": "Placeholder for all activity of this visitor"
+          }
       }
     }
   },

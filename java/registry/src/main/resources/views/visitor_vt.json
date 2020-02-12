@@ -1,0 +1,21 @@
+{
+  "subject": "Visitor",
+  "fields": [
+    {
+        "name": "code",
+        "display": true
+    },
+    {
+      "name": "name",
+      "display": true
+    },
+    {
+        "name": "org",
+        "display": true
+    },
+    {
+        "name": "votes",
+        "display": true
+    }
+  ]
+}

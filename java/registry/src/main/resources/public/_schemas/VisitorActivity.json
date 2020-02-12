@@ -23,8 +23,7 @@
       "required": [
         "visitorCode",
         "stallCode",
-        "entryTimestamp",
-        "exitTimestamp"
+        "entryTimestamp"
       ],
       "additionalProperties": false,
       "optional": [
@@ -43,7 +42,6 @@
         },
         "entryTimestamp" : {
           "type": "string",
-          "format": "date-time",
           "$comment": "Timestamp",
           "default": "",
           "examples": [
@@ -52,13 +50,17 @@
         },
          "exitTimestamp" : {
           "type": "string",
-          "format": "date-time",
           "$comment": "Timestamp",
           "default": "",
           "examples": [
             "1273987329879"
           ]
-        }
+        },
+        "points": {
+            "$id": "#/properties/points",
+            "type": "integer",
+            "$comment": "points given to this visitor"
+          }
       }
     }
   }
