@@ -27,6 +27,7 @@
       ],
       "additionalProperties": false,
       "optional": [
+	"points"
       ],
       "properties": {
         
@@ -40,6 +41,12 @@
           "type":"string",
           "$comment": "Stall code"
         },
+       "points": {
+          "$id": "#/properties/points",
+          "type":"integer",
+	  "default":0,
+          "$comment": "Points receive in activity"
+        }, 
         "entryTimestamp" : {
           "type": "string",
           "$comment": "Timestamp",
