@@ -1,0 +1,130 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "type": "object",
+  "properties": {
+    "Teacher": {
+      "$ref": "#/definitions/Teacher"
+    }
+  },
+  "required": [
+    "Teacher"
+  ],
+  "title": "Teacher",
+  "definitions": {
+    "Teacher": {
+      "$id": "#/properties/Teacher",
+      "type": "object",
+      "title": "The Teacher Schema",
+      "required": [
+        "code",
+        "name",
+        "board",
+        "medium",
+        "grade",
+        "subjects",
+        "district",
+        "schoolName"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "$id": "#/properties/teacherCode",
+          "$ref": "Common.json#/definitions/IdDevCon"
+        },
+        "name": {
+          "$id": "#/properties/name",
+          "type": "string",
+          "title": "Full name"
+        },
+        "board": {
+          "$id": "#/properties/board",
+          "type": "string",
+          "enum": [
+            "CBSE"
+          ],
+          "title": "Board name"
+        },
+        "medium": {
+          "$id": "#/properties/medium",
+          "type": "string",
+          "enum": [
+            "English"
+          ],
+          "title": "Medium"
+        },
+        "subjects": {
+          "$id": "#/properties/subjects",
+          "type": "array",
+          "items": {
+            "$ref": "Common.json#/definitions/SubjectsDevCon"
+          },
+          "title": "Subjects taught"
+        },
+        "grade": {
+          "$id": "#/properties/grade",
+          "type": "array",
+          "items": {
+            "$ref": "Common.json#/definitions/GradeDevCon"
+          },
+          "title": "Class"
+        },
+        "district": {
+          "$id": "#/properties/district",
+          "type": "string",
+          "title": "District name"
+        },
+        "schoolName": {
+          "$id": "#/properties/schoolName",
+          "type": "string",
+          "$ref": "Common.json#/definitions/SchoolDevCon",
+          "title": "Name of the school currently working for"
+        },
+        "state": {
+          "$ref": "Common.json#/definitions/StateDevCon"
+        },
+        "phone": {
+          "$ref": "Common.json#/definitions/PhoneDevCon"
+        },
+        "email": {
+          "$ref": "Common.json#/definitions/EmailDevCon"
+        },
+        "statistics": {
+          "type": "object",
+          "properties": {
+            "passAverage": {
+              "$id": "#/properties/passAverage",
+              "type": "number",
+              "title": "Percentage pass average"
+            },
+            "nContentsCreated": {
+              "$id": "#/properties/nContentsCreated",
+              "type": "integer",
+              "title": "Count of contents created"
+            },
+            "nConsumed": {
+              "$id": "#/properties/nConsumed",
+              "type": "integer",
+              "title": "Cumulative sum of contents created consumed by students"
+            },
+            "attendancePercent" : {
+              "$id": "#/properties/attendancePercent",
+              "type": "number",
+              "title": "Percent of attendance"
+            }
+          }
+        }
+      }
+    }
+  },
+  "_osConfig": {
+    "osComment": [
+      "This section contains the OpenSABER specific configuration information",
+      "privateFields: Optional; list of field names to be encrypted and stored in database",
+      "signedFields: Optional; list of field names that must be pre-signed"
+    ],
+    "privateFields": [],
+    "signedFields": [],
+    "indexFields": [],
+    "uniqueIndexFields": []
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "type": "object",
+  "properties": {
+    "Idea": {
+      "$ref": "#/definitions/Idea"
+    }
+  },
+  "required": [
+    "Idea"
+  ],
+  "title":"Idea",
+  "_osConfig": {
+    "indexFields": ["code"],
+    "uniqueIndexFields": [],
+    "systemFields": ["osCreatedAt"]
+  },
+  "definitions": {
+    "Idea": {
+      "$id": "#/properties/idea",
+      "type": "object",
+      "title": "The stall Schema",
+      "required": [
+        "code",
+        "name",
+        "description"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "$id": "#/properties/code",
+          "type": "string",
+          "$comment": "Idea identifier"
+        },
+         "name": {
+          "$id": "#/properties/name",
+          "type": "string"
+        },
+        "description": {
+          "$id": "#/properties/description",
+          "type": "string",
+          "title": "Description of the idea"
+        }
+      }
+    }
+  }
+}

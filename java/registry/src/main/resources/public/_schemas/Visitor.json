@@ -1,0 +1,76 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "type": "object",
+  "properties": {
+    "Visitor": {
+      "$ref": "#/definitions/Visitor"
+    }
+  },
+  "required": [
+    "Visitor"
+  ],
+  "title":"Visitor",
+
+  "definitions": {
+    "Visitor": {
+      "$id": "#/properties/visitor",
+      "type": "object",
+      "title": "The visitor Schema",
+      "required": [
+        "name",
+        "code"
+      ],
+      "optional": [
+        "org",
+        "points",
+        "votes",
+        "photo"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        
+        "votes": {
+          "$id": "#/properties/votes",
+          "type": "array",
+          "items": {
+            "$ref": "Vote.json#/definitions/Vote"
+          },
+          "$comment": "Placeholder for all votes this visitor put"
+        },
+        "org": {
+          "$id": "#/properties/org",
+          "type": "string",
+          "$comment": "Org name"
+        },
+        "code": {
+          "$id": "#/properties/visitorCode",
+          "$ref": "Common.json#/definitions/IdDevCon"
+        },
+        "name": {
+          "$id": "#/properties/name",
+          "type": "string",
+          "title": "Full name"
+        },
+        "emailId": {
+           "$ref": "Common.json#/definitions/EmailDevCon"
+        },
+        "photo": {
+          "$id": "#/properties/photo",
+          "type": "string",
+          "format":"URI",
+          "title": "Photo Url of visitor"
+        },
+        "points": {
+          "$id": "#/properties/points",
+          "type": "integer",
+          "$comment": "points given to this visitor"
+        }
+      }
+    }
+  },
+    "_osConfig": {
+   "indexFields": ["code"],
+     "uniqueIndexFields": ["code"],
+     "systemFields": ["osCreatedAt", "osUpdatedAt"]
+  }
+}

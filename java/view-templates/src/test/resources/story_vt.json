@@ -1,0 +1,14 @@
+{
+  "id": "storyDefaultView1",
+  "subject": "Story",
+  "fields": [
+    {
+        "name": "trainNum",
+        "title": "trainNum"
+    },
+    {
+      "name":"trainName",
+      "display": true
+    }
+    ]
+}

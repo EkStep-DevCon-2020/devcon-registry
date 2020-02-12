@@ -1,0 +1,12 @@
+{
+  "id": "auditview",
+  "subject": "Teacher_Audit",
+  "fields": [
+    {
+        "name": "record",
+    },
+    {
+      "name":"trainName"
+    }
+    ]
+}

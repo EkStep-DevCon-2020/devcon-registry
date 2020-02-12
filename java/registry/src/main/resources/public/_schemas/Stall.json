@@ -1,0 +1,69 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "type": "object",
+  "properties": {
+    "Stall": {
+      "$ref": "#/definitions/Stall"
+    }
+  },
+  "required": [
+    "Stall"
+  ],
+  "title":"Stall",
+  "_osConfig": {
+      "indexFields": ["code"],
+      "uniqueIndexFields": [],
+      "systemFields": ["osCreatedAt"]
+  },
+  "definitions": {
+    "Stall": {
+      "$id": "#/properties/stall",
+      "type": "object",
+      "title": "The stall Schema",
+      "required": [
+        "code",
+        "name",
+        "floor",
+        "ideas"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "$id": "#/properties/stallCode",
+          "$ref": "Common.json#/definitions/IdDevCon"
+        },
+        "name": {
+          "$id": "#/properties/name",
+          "type": "string",
+          "enum": [
+            "Creation",
+            "Classroom",
+            "Staffroom",
+            "AdminOffice",
+            "NOC",
+            "Bazaar",
+            "Home"
+          ],
+          "title": "Stall name"
+        },
+        "floor": {
+          "$id": "#/properties/name",
+          "type": "string",
+          "enum": [
+            "1st Floor",
+            "2nd Floor",
+            "3rd Floor",
+            "4th Floor"
+          ]
+        },
+        "ideas": {
+          "$id": "#/properties/ideas",
+          "type": "array",
+          "items": {
+            "$ref": "Idea.json#/definitions/Idea"
+          }
+        }
+      }
+    }
+  }
+}
