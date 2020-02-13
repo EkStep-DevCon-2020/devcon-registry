@@ -20,28 +20,10 @@
         "name",
         "code"
       ],
-      "optional": [
-        "org",
-        "votes",
-        "photo",
-        "activities"
-      ],
+      
       "additionalProperties": false,
       "properties": {
-        
-        "votes": {
-          "$id": "#/properties/votes",
-          "type": "array",
-          "items": {
-            "$ref": "Vote.json#/definitions/Vote"
-          },
-          "$comment": "Placeholder for all votes this visitor put"
-        },
-        "org": {
-          "$id": "#/properties/org",
-          "type": "string",
-          "$comment": "Org name"
-        },
+       
         "code": {
           "$id": "#/properties/visitorCode",
           "$ref": "Common.json#/definitions/IdDevCon"
@@ -51,23 +33,12 @@
           "type": "string",
           "title": "Full name"
         },
-        "emailId": {
-           "$ref": "Common.json#/definitions/EmailDevCon"
-        },
         "photo": {
           "$id": "#/properties/photo",
           "type": "string",
           "format":"URI",
           "title": "Photo Url of visitor"
-        },
-        "activities": {
-            "$id": "#/properties/activities",
-            "type": "array",
-            "items": {
-              "$ref": "VisitorActivity.json#/definitions/VisitorActivity"
-            },
-            "$comment": "Placeholder for all activity of this visitor"
-          }
+        }
 
       }
     }
