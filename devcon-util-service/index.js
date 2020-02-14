@@ -35,6 +35,7 @@ app.post("/add", (req,response,callback)=>{
             console.log(err)
         }
 })
+})
 
 
 app.post("/read", (req,response,callback)=>{
@@ -59,6 +60,8 @@ app.post("/read", (req,response,callback)=>{
             console.log(err)
         }
 })
+}
+)
 
 app.post("/search", (req,response,callback)=>{
 
@@ -81,6 +84,7 @@ app.post("/search", (req,response,callback)=>{
         }else{
             console.log(err)
         }
+})
 })
 
 
@@ -105,8 +109,8 @@ app.post("/update", (req,response,callback)=>{
         }else{
             console.log(err)
         }
+    })
 })
-
 
 
 app.post("/getVisitor", (req,response,callback)=>{
