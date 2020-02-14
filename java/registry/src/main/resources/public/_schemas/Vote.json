@@ -57,7 +57,13 @@
           "$id": "#/properties/comment",
           "type": "string",
           "$comment": "Free form comments"
-        }
+        },
+        "points": {
+            "$id": "#/properties/points",
+            "type": "integer",
+            "default":0,
+            "$comment": "points given to this idea"
+         }
       }
     }
   }
