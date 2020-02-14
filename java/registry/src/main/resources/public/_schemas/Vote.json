@@ -1,0 +1,64 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "type": "object",
+  "$comment": "Vote schema definition",
+  "properties": {
+    "Vote": {
+      "$ref": "#/definitions/Vote"
+    }
+  },
+  "title":"Vote",
+  "_osConfig": {
+      "indexFields": ["visitorCode","ideaCode"],
+      "uniqueIndexFields": [],
+      "systemFields": ["osCreatedAt"]
+  },
+  "definitions": {
+    "Vote": {
+      "$id": "#/properties/Vote",
+      "type": "object",
+      "title": "Vote for the devcon",
+      "required": [
+        "ideaCode",
+        "visitorCode"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "timestamp": {
+          "$id": "#/properties/timestamp",
+          "type": "string",
+          "examples": [
+            "2017-09-23T20:21:34Z"
+          ]
+        },
+        "visitorCode": {
+          "$id": "#/properties/visitorCode",
+          "type": "string",
+          "$comment": "visitor code",
+          "examples": [
+            "VIS1"
+          ]
+        },
+        "ideaCode": {
+          "$id": "#/properties/ideaCode",
+          "type": "string",
+          "$comment": "idea code",
+          "examples": [
+            "IDE1"
+          ]
+        },
+        "rating" : {
+          "$id": "#/properties/starRating",
+          "type": "integer",
+          "enum": [1, 2, 3, 4, 5],
+          "$comment": "Star rating, only one is allowed"
+        },
+        "comment": {
+          "$id": "#/properties/comment",
+          "type": "string",
+          "$comment": "Free form comments"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "type": "object",
+  "properties": {
+    "Idea": {
+      "$ref": "#/definitions/Idea"
+    }
+  },
+  "title":"Idea",
+  "required": [
+    "Idea"
+  ],
+  "_osConfig": {
+    "indexFields": ["code"],
+    "uniqueIndexFields": ["code"],
+    "systemFields": ["osCreatedAt"]
+  },
+  "definitions": {
+    "Idea": {
+      "$id": "#/properties/Idea",
+      "required": [
+        "code",
+        "name",
+        "description",
+        "stallCode"
+      ],
+      "properties": {
+        "code": {
+          "$id": "#/properties/code",
+          "type": "string",
+          "$comment": "Idea identifier"
+        },
+         "name": {
+          "$id": "#/properties/name",
+          "type": "string"
+        },
+        "description": {
+          "$id": "#/properties/description",
+          "type": "string",
+          "title": "Description of the idea"
+        },
+        "stallCode": {
+            "$id": "#/properties/stallCode",
+            "type":"string",
+            "$comment": "Stall code"
+          }
+      }
+    }
+  }
+}

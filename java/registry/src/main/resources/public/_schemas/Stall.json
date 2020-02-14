@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "type": "object",
+  "properties": {
+    "Stall": {
+      "$ref": "#/definitions/Stall"
+    }
+  },
+  "title":"Stall",
+  "_osConfig": {
+      "indexFields": ["code"],
+      "uniqueIndexFields": ["code"],
+      "systemFields": ["osCreatedAt"]
+  },
+  "definitions": {
+    "Stall": {
+      "$id": "#/properties/stall",
+      "type": "object",
+      "title": "The stall Schema",
+      "required": [
+        "code",
+        "name",
+        "floor"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "$id": "#/properties/stallCode",
+          "$ref": "Common.json#/definitions/IdDevCon"
+        },
+        "name": {
+          "$id": "#/properties/name",
+          "type": "string",
+          "title": "Stall name"
+        },
+        "floor": {
+          "$id": "#/properties/name",
+          "type": "string"
+        }
+      }
+    }
+  }
+}

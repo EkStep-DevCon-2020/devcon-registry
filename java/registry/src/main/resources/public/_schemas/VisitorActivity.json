@@ -1,0 +1,69 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "type": "object",
+  "properties": {
+    "VisitorActivity": {
+      "$ref": "#/definitions/VisitorActivity"
+    }
+  },
+  "required": [
+    "VisitorActivity"
+  ],
+  "title":"VisitorActivity",
+  "_osConfig": {
+    "indexFields": ["visitorCode"],
+    "uniqueIndexFields": [],
+    "systemFields": ["osCreatedAt"]
+  },
+  "definitions": {
+    "VisitorActivity": {
+      "$id": "#/properties/VisitorActivity",
+      "type": "object",
+      "title": "The VisitorActivity Schema",
+      "required": [
+        "visitorCode",
+        "stallCode",
+        "entryTimestamp"
+      ],
+      "additionalProperties": false,
+      "optional": [
+    	  "points"
+      ],
+      "properties": {
+        
+        "visitorCode": {
+          "$id": "#/properties/visitorCode",
+          "type":"string",
+          "$comment": "visitor code"
+        },
+        "stallCode": {
+          "$id": "#/properties/stallCode",
+          "type":"string",
+          "$comment": "Stall code"
+        },
+        "points": {
+          "$id": "#/properties/points",
+          "type":"integer",
+          "default":0,
+          "$comment": "Points receive in activity"
+        }, 
+        "entryTimestamp" : {
+          "type": "string",
+          "$comment": "Timestamp",
+          "default": "",
+          "examples": [
+            "1273987329879"
+          ]
+        },
+         "exitTimestamp" : {
+          "type": "string",
+          "$comment": "Timestamp",
+          "default": "",
+          "examples": [
+            "1273987329879"
+          ]
+        }
+      }
+    }
+  }
+}
