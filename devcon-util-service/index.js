@@ -220,6 +220,45 @@ app.post("/visitor/defaultAdd", (req,response,callback)=>{
 
 })
 
+app.post("/visitor/activity", (req,response,callback)=>{
+    let option = {
+        json: true,
+        headers: {
+            "Content-Type":"application/json"
+        },
+        body: req.body,
+        url: baseUrl+"/add"
+    }
+
+    request.post(option, function (err, res) {
+
+        if(res){
+            response.send(res.body)
+        }
+    })
+
+})
+
+
+app.post("/visitor/vote", (req,response,callback)=>{
+    let option = {
+        json: true,
+        headers: {
+            "Content-Type":"application/json"
+        },
+        body: req.body,
+        url: baseUrl+"/add"
+    }
+
+    request.post(option, function (err, res) {
+
+        if(res){
+            response.send(res.body)
+        }
+    })
+
+})
+
 
 app.post("/visitor/add", (req,response,callback)=>{
 
@@ -340,8 +379,40 @@ app.post("/visitor/add", (req,response,callback)=>{
 
 app.post("/visitor/detail/get", (req,response,callback)=>{
 
-    var readSuffix = "read"
+    var readSuffix = "search"
     var url = baseUrl + "/" + readSuffix
+
+    var visCode = req.body.request.Visitor.code
+    var ets = req.body.ets
+    var filterQ = {
+        code:{
+         eq : visCode
+     }
+    }
+
+    var searchTemplate ={
+        id: "open-saber.registry.search",
+        ver: "1.0",
+        ets: ets,
+        params: {
+            did: "",
+            key: "",
+            msgid: ""
+        },
+     request: {
+    
+        entityType: ["Visitor"],
+        filters: {
+        
+        
+        }
+    }
+
+    };
+
+    searchTemplate.request.filters = filterQ
+
+
 
     //Get Visitor Details
 
@@ -350,7 +421,7 @@ app.post("/visitor/detail/get", (req,response,callback)=>{
         headers: {
             "Content-Type":"application/json"
         },
-        body: req.body,
+        body: searchTemplate,
         url: url
     }
     request.post(option1, function (err, res) {
@@ -358,29 +429,11 @@ app.post("/visitor/detail/get", (req,response,callback)=>{
 
                  var visitorDetails = res.body;
                  console.log(res.body);
-                 var searchTemplate ={
-                        id: "open-saber.registry.search",
-                        ver: "1.0",
-                        ets: "11234",
-                        params: {
-                            did: "",
-                            key: "",
-                            msgid: ""
-                        },
-                     request: {
-                    
-                        entityType: [],
-                        filters: {
-                        
-                        
-                        }
-                    }
                 
-                };
 
-              visCode = visitorDetails["result"]["Visitor"]["code"]
               //Get visitor votes
              var entityArray = searchTemplate["request"]["entityType"]
+             entityArray.pop()
              entityArray.push("Vote");
               //add filter
               var filterQ = {
@@ -403,26 +456,7 @@ app.post("/visitor/detail/get", (req,response,callback)=>{
                 
                 var voteDetails =  resp.body
 
-                var searchTemplate ={
-                    id: "open-saber.registry.search",
-                    ver: "1.0",
-                    ets: "11234",
-                    params: {
-                    did: "",
-                    key: "",
-                    msgid: ""
-                    },
-                    request: {
-                    
-                        entityType: [],
-                        filters: {
-                            
-                            
-                        }
-                   }
-                
-                };
-
+               
            //Get visitor activities
            var entityArray = searchTemplate["request"]["entityType"]
            entityArray.pop()
@@ -451,17 +485,17 @@ app.post("/visitor/detail/get", (req,response,callback)=>{
                 });
                 
                 if(voteDetails.result.Vote == undefined){
-                    visitorDetails.result.Visitor['votes'] = [];
+                    visitorDetails.result.Visitor[0]['votes'] = [];
                 }else{
-                    visitorDetails.result.Visitor['votes'] =voteDetails.result.Vote
+                    visitorDetails.result.Visitor[0]['votes'] =voteDetails.result.Vote
                 }
 
                 if(voteDetails.result.Vote == undefined){
-                    visitorDetails.result.Visitor['vactivitiesotes'] = [];
+                    visitorDetails.result.Visitor[0]['activities'] = [];
                 }else{
-                    visitorDetails.result.Visitor['activities'] = visitorActivityDetails.result.VisitorActivity
+                    visitorDetails.result.Visitor[0]['activities'] = visitorActivityDetails.result.VisitorActivity
                 }
-                visitorDetails.result.Visitor['totalPoints'] = totalPoints
+                visitorDetails.result.Visitor[0]['totalPoints'] = totalPoints
                 response.send(visitorDetails);
                 
                 console.log("error ", err)
@@ -485,6 +519,63 @@ app.post("/visitor/detail/get", (req,response,callback)=>{
     })
 })
 
+
+
+app.post("/visitor/basic/get", (req,response,callback)=>{
+
+    var readSuffix = "search"
+    var url = baseUrl + "/" + readSuffix
+
+    var visCode = req.body.request.Visitor.code
+    var ets = req.body.ets
+    var filterQ = {
+        code:{
+         eq : visCode
+     }
+    }
+
+    var searchTemplate ={
+        id: "open-saber.registry.search",
+        ver: "1.0",
+        ets: ets,
+        params: {
+            did: "",
+            key: "",
+            msgid: ""
+        },
+     request: {
+    
+        entityType: ["Visitor"],
+        filters: {
+        
+        
+        }
+    }
+
+    };
+
+    searchTemplate.request.filters = filterQ
+
+
+
+    //Get Visitor Details
+
+    let option1 = {
+        json: true,
+        headers: {
+            "Content-Type":"application/json"
+        },
+        body: searchTemplate,
+        url: url
+    }
+    request.post(option1, function (err, res) {
+        if (res) {
+
+                 var visitorDetails = res.body;
+                 response.send(visitorDetails)
+        }
+    })
+})
 
 
 
@@ -615,26 +706,45 @@ app.post("/visitor/detail/getall", (req,response,callback)=>{
     })
 
 })
-    //Get Visitor Votes details
-    // let option = {
-    //     json: true,
-    //     headers: {
-    //         "Content-Type":"application/json"
-    //     },
-    //     body: req.body,
-    //     url: url
-    // }
-    // request.post(option, function (err, res) {
-    //     if (res) {
-    //         visitorDetails = res.body;
-    //         console.log(res.body);
+   
+app.post("/visitor/basic/getall", (req,response,callback)=>{
 
-    //     }
-    //     else {
-    //         console.log("error ", err)
-    //     }
-    // });
-  
+    
+    var searchTemplate ={
+        id: "open-saber.registry.search",
+        ver: "1.0",
+        ets: "11234",
+        params: {
+            did: "",
+            key: "",
+            msgid: ""
+        },
+     request: {
+    
+        entityType: [],
+        filters: {
+        
+        
+        }
+     }
+
+    };
+   
+    let option1 = {
+        json: true,
+        headers: {
+            "Content-Type":"application/json"
+        },
+        body: req.body,
+        url: baseUrl+"/search"
+    }
+    request.post(option1, function (err, res) {
+        if (res) {
+            var visitorList = res.body
+            response.send(visitorList)
+        }
+    })
+})
 
         
 server.listen(9090, function () {

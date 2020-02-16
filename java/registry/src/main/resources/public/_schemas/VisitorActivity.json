@@ -22,8 +22,7 @@
       "title": "The VisitorActivity Schema",
       "required": [
         "visitorCode",
-        "stallCode",
-        "entryTimestamp"
+        "stallCode"
       ],
       "additionalProperties": false,
       "optional": [
@@ -40,6 +39,11 @@
           "$id": "#/properties/stallCode",
           "type":"string",
           "$comment": "Stall code"
+        },
+         "ideaCode": {
+          "$id": "#/properties/ideaCode",
+          "type":"string",
+          "$comment": "Idea code"
         },
         "entryTimestamp" : {
           "type": "string",
