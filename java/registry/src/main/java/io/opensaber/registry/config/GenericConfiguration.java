@@ -315,13 +315,13 @@ public class GenericConfiguration implements WebMvcConfigurer {
 	@Bean
 	public Map<String, String> requestIdMap() {
 		Map<String, String> requestIdMap = new HashMap<>();
-		requestIdMap.put(Constants.REGISTRY_ADD_ENDPOINT, Response.API_ID.CREATE.getId());
-		requestIdMap.put(Constants.REGISTRY_READ_ENDPOINT, Response.API_ID.READ.getId());
-		requestIdMap.put(Constants.REGISTRY_SEARCH_ENDPOINT, Response.API_ID.SEARCH.getId());
-		requestIdMap.put(Constants.REGISTRY_UPDATE_ENDPOINT, Response.API_ID.UPDATE.getId());
-		requestIdMap.put(Constants.SIGNATURE_SIGN_ENDPOINT, Response.API_ID.SIGN.getId());
-		requestIdMap.put(Constants.SIGNATURE_VERIFY_ENDPOINT, Response.API_ID.VERIFY.getId());
-		requestIdMap.put(Constants.REGISTRY_AUDT_READ_ENDPOINT, Response.API_ID.AUDIT.getId());
+		requestIdMap.put(Constants.REGISTRY_ADD_ENDPOINT, Response.API_ID.NONE.getId());
+		requestIdMap.put(Constants.REGISTRY_READ_ENDPOINT, Response.API_ID.NONE.getId());
+		requestIdMap.put(Constants.REGISTRY_SEARCH_ENDPOINT, Response.API_ID.NONE.getId());
+		requestIdMap.put(Constants.REGISTRY_UPDATE_ENDPOINT, Response.API_ID.NONE.getId());
+		requestIdMap.put(Constants.SIGNATURE_SIGN_ENDPOINT, Response.API_ID.NONE.getId());
+		requestIdMap.put(Constants.SIGNATURE_VERIFY_ENDPOINT, Response.API_ID.NONE.getId());
+		requestIdMap.put(Constants.REGISTRY_AUDT_READ_ENDPOINT, Response.API_ID.NONE.getId());
 		return requestIdMap;
 	}
 
@@ -338,8 +338,8 @@ public class GenericConfiguration implements WebMvcConfigurer {
 
 		// Verifying our API identifiers and populating the APIMessage bean
 		// Do not remove this.
-		registry.addInterceptor(requestIdValidationInterceptor()).addPathPatterns(new ArrayList(requestMap.keySet()))
-				.order(orderIdx++);
+//		registry.addInterceptor(requestIdValidationInterceptor()).addPathPatterns(new ArrayList(requestMap.keySet()))
+//				.order(orderIdx++);
 
 		// Authenticate and authorization check
 		if (authenticationEnabled) {
