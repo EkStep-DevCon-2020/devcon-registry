@@ -20,11 +20,10 @@
         "name",
         "code"
       ],
-      "optional": [
-        "photo"
-      ],
+      
       "additionalProperties": false,
-      "properties": {       
+      "properties": {
+       
         "code": {
           "$id": "#/properties/visitorCode",
           "$ref": "Common.json#/definitions/IdDevCon"
@@ -40,6 +39,7 @@
           "format":"URI",
           "title": "Photo Url of visitor"
         }
+
       }
     }
   },
