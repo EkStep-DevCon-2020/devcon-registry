@@ -4,9 +4,8 @@ const app = express();
 var bodyParser = require("body-parser");
 var cors = require("cors")
 const request = require('request')
-var Queue = require('queue-fifo');
 
-var cacheManager = require('cache-manager');
+
 
 const server = http.createServer(app);
 var registryBaseUrl = "https://devcon.sunbirded.org/api/reg";
@@ -15,7 +14,6 @@ app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-var queue = new Queue();
 var cache = require('./cache.js');
 
 
@@ -25,24 +23,59 @@ app.post("/visitor/new", (req,response,callback)=>{
     //call registerFace Api
 
     //update registry of a visitor with photo url
+    var resp = {
+       
+           "responseCode":"OK"
+        }
+    
+        response.send(resp)
   
 })
 
 //Add Stall Details
 app.post("/visitor/exit", (req,response,callback)=>{
 
-    // add visitor osid in queue
-
     //update exit time of a visitor
+    var resp = {
+       
+        "responseCode":"OK"
+     }
+     response.send(resp)
 
   
 })
 
 
 //Add Stall Details
-app.post("/visitor/display", (req,response,callback)=>{
+app.get('/visitor/display/:id', (req,response,callback)=>{
 
-    
+    var resp = {
+        badges: [{
+            url: "httpURL",
+            name: "string"
+        }],
+        name: "Test USER",
+        code: "VID11",
+        photo: "url",
+        pointsEarned: 300,
+        visitorActivity: [
+            {
+                
+                "stallCode": "STA1",
+                "timeSpent":  200000000
+                
+            },
+            {
+                
+                "stallCode": "STA2",
+                "timeSpent":  2000000
+                
+            }
+        ]
+     } 
+
+     response.send(resp)
+
   
 })
         
