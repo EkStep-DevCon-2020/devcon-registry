@@ -238,7 +238,7 @@ app.get('/visitor/display/:id', (req,response,callback)=>{
                     visitorDetail['visitorActivity'] =activityStallDetails
 
                     visitorDetail['pointsEarned'] = totalPoints
-                    visitorDetail['responseCode']="SUCCESSFUL"
+                    visitorDetail['status']="SUCCESSFUL"
                     visitorDetail['badges'] = earnedBadges
                     response.send(visitorDetail)
 
