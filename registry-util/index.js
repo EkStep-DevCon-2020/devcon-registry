@@ -51,10 +51,10 @@ app.get('/visitor/display/:id', (req,response,callback)=>{
 
     var resp = {
         badges: [{
-            url: "httpURL",
-            name: "string"
+            url: "https://www.pngarts.com/files/4/Golden-Badge-PNG-Free-Download.png",
+            name: "GOLD"
         }],
-        name: "Test USER",
+        name: "Mohan Lal",
         code: "VID11",
         photo: "url",
         pointsEarned: 300,
