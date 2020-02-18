@@ -4,6 +4,9 @@ const app = express();
 var bodyParser = require("body-parser");
 var cors = require("cors")
 const request = require('request')
+const dotenv = require('dotenv');
+dotenv.config();
+
 
 var Queue = require('queue-fifo');
 var queue = new Queue();
@@ -38,7 +41,7 @@ cache.set("Platinum", Platinumbadge)
 
 
 let tempHeader = {
-    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiIyZWU4YTgxNDNiZWE0NDU4YjQxMjcyNTU5ZDBhNTczMiJ9.7m4mIUaiPwh_o9cvJuyZuGrOdkfh0Nm0E_25Cl21kxE',
+    'Authorization': process.env.DEVCON_API_KEY,
     'Content-type': 'application/json'
 }
 
