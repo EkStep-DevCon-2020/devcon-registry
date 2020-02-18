@@ -36,6 +36,14 @@ cache.set("Silver",Silverbadge)
 cache.set("Gold",Goldbadge)
 cache.set("Platinum", Platinumbadge)
 
+
+let tempHeader = {
+    'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiIyZWU4YTgxNDNiZWE0NDU4YjQxMjcyNTU5ZDBhNTczMiJ9.7m4mIUaiPwh_o9cvJuyZuGrOdkfh0Nm0E_25Cl21kxE',
+    'Content-type': 'application/json'
+}
+
+
+
 app.post("/visitor/new", (req,response,callback)=>{
 
 
@@ -52,10 +60,12 @@ app.post("/visitor/new", (req,response,callback)=>{
        }
    }
 
+ 
     let option = {
         json: true,
-        headers: req.headers,
+        headers: tempHeader,
         body: req.body,
+        strictSSL: false,
         url: faceRegistryBaseUrl+"/register"
     }
 
@@ -67,9 +77,7 @@ app.post("/visitor/new", (req,response,callback)=>{
                 var result = res.body
                 let option1 = {
                     json: true,
-                    headers: {
-                        "Content-Type":"application/json"
-                    },
+                    headers: tempHeader,
                     body: updateTemplate,
                     url: registryBaseUrl+"/update"
                 }
@@ -152,9 +160,7 @@ app.get('/visitor/display/:id', (req,response,callback)=>{
         searchTemplate.request['filters']=filterQ
         let option = {
             json: true,
-            headers: {
-                "Content-Type":"application/json"
-            },
+            headers: tempHeader,
             body: searchTemplate,
             url: registryBaseUrl+"/search"
         }
@@ -174,9 +180,7 @@ app.get('/visitor/display/:id', (req,response,callback)=>{
                 searchTemplate.request.filters = filterQ
                 let option2 = {
                  json: true,
-                 headers: {
-                     "Content-Type":"application/json"
-                 },
+                 headers:tempHeader,
                  body:searchTemplate,
                  url: registryBaseUrl+"/search"
                  
