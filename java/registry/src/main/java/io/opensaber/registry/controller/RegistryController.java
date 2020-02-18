@@ -95,7 +95,6 @@ public class RegistryController {
 	private static final String VISITOR_CODE_STR = "VIS";
 	private static final String CODE_STR = "code";
 
-
 	/**
 	 * Note: Only one mime type is supported at a time. Pick up the first mime type
 	 * from the header.
@@ -263,6 +262,37 @@ public class RegistryController {
 		ResponseParams responseParams = new ResponseParams();
 		Response response = new Response(Response.API_ID.READ, "OK", responseParams);
 		JsonNode inputJson = apiMessage.getRequest().getRequestMapNode();
+		try {
+			JsonNode resultNode = registryHelper.readEntity(inputJson, apiMessage.getUserID(), requireLDResponse);
+			// Transformation based on the mediaType
+			Data<Object> data = new Data<>(resultNode);
+			Configuration config = configurationHelper.getResponseConfiguration(requireLDResponse);
+
+			ITransformer<Object> responseTransformer = transformer.getInstance(config);
+			Data<Object> resultContent = responseTransformer.transform(data);
+			response.setResult(resultContent.getData());
+			logger.info("ReadEntity,{},{}",
+					resultNode.get(apiMessage.getRequest().getEntityType()).get(uuidPropertyName), config);
+		} catch (Exception e) {
+			logger.error("Read Api Exception occurred ", e);
+			responseParams.setErrmsg(e.getMessage());
+			responseParams.setStatus(Response.Status.UNSUCCESSFUL);
+		}
+
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/Visitor/{id}", method = RequestMethod.GET)
+	public ResponseEntity<Response> readVisitorEntity(@PathVariable String id ) {
+		boolean requireLDResponse = false;
+		//header.getAccept().contains(Constants.LD_JSON_MEDIA_TYPE);
+		Map<String, Object> requestMap= new HashMap<String, Object>();
+		Map<String, Object> reqIdMap = new HashMap<String, Object>();
+		reqIdMap.put("osid",id);
+		requestMap.put("Visitor",reqIdMap);
+		JsonNode inputJson = new ObjectMapper().valueToTree(requestMap);
+		ResponseParams responseParams = new ResponseParams();
+		Response response = new Response(Response.API_ID.READ, "OK", responseParams);
 		try {
 			JsonNode resultNode = registryHelper.readEntity(inputJson, apiMessage.getUserID(), requireLDResponse);
 			// Transformation based on the mediaType
