@@ -5,6 +5,8 @@ var bodyParser = require("body-parser");
 var cors = require("cors")
 const request = require('request')
 const dotenv = require('dotenv');
+const axios = require('axios').default;
+
 dotenv.config();
 
 
@@ -48,14 +50,14 @@ let tempHeader = {
 }
 
 
-
+// Add new visitor
 app.post("/visitor/new", (req,response,callback)=>{
 
 
     //call registerFace Api
-    
     var uuid = req.body.request.osid
     var imageUrl = req.body.request.photo
+    var name = req.body.request.name
    var updateTemplate= {
        request:{
            Visitor:{
@@ -90,6 +92,7 @@ app.post("/visitor/new", (req,response,callback)=>{
                 request.post(option1, function (err, res) {
                     if (res) {
                             response.send(res.body)
+                            createParticipationCertificate(name,uuid,imageUrl)
                     }else{
                         console.log(err)
                     }
@@ -113,8 +116,6 @@ app.post("/visitor/new", (req,response,callback)=>{
              response.send(resp)
         }
     })
-   
-
   
 })
 
@@ -316,7 +317,52 @@ app.get('/visitor/display/:id', (req,response,callback)=>{
 
   
 })
-        
+
+function createParticipationCertificate(name,id,image) {
+// creating participation certificate async
+console.log("recipientName",name)
+console.log("recipientId",id)
+console.log("recipientphoto",image)
+axios.post('https://devcon.sunbirded.org/api/reghelper/certificate/v1/create',
+    {
+        request: {
+            certificate: {
+                name:"Participation certificate",
+                htmlTemplate: "https://devcon2020.blob.core.windows.net/user/cert/File-01296051607112089631.zip",
+                courseName: "DevCon-2020",
+                issuedDate: "2020-02-20",
+                data: [
+                    {
+                        recipientName: name,
+                        recipientId: id,
+                        recipientPhoto: image
+                    }
+                ],
+                tag: "0125450863553740809",
+                issuer: {
+                    name: "EkStep",
+                    url: "https://ekstep.org/"
+                },
+                criteria: {
+                    narrative: "Participation in Devcon 2020"
+                },
+                signatoryList: [
+                    {
+                        name: "Devcon 2020 team",
+                        id: "urn:EkStep:Devcon2020",
+                        designation: "Management committee",
+                        image: "https://devcon2020.blob.core.windows.net/user/cert/File-01296003072882278466.png"
+                    }
+                ]
+            }
+        }
+    },{
+        headers: tempHeader
+      })
+  .then(function (response) {
+    console.log("the response got ",response.data);
+  })
+}
 server.listen(9090, function () {
     console.log("util service listening on port " + 9090);
 })
