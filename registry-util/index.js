@@ -19,29 +19,40 @@ const registryBaseUrl = "https://devcon.sunbirded.org/api/reg";
 const faceRegistryBaseUrl = "https://devcon.sunbirded.org/api/reghelper/face" 
 const certificateBaseUrl = "https://devcon.sunbirded.org/api/certreg/v1/certs"
 
-
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 var cache = require('./cache.js');
-const Silverbadge= {
-    url:"https://www.pngarts.com/files/4/Golden-Badge-PNG-Free-Download.png",
-    name:"Silver"
+
+const ReaderBadge = {
+    url: "https://devcon2020.blob.core.windows.net/user/media/File-01296059240825651261.png",
+    name: "Super Reader",
+    id: "reader_small.png"
 }
 
-const Goldbadge= {
-    url:"https://www.pngarts.com/files/4/Golden-Badge-PNG-Free-Download.png",
-    name:"Gold"
+const ContributorBadge = {
+    url: "https://devcon2020.blob.core.windows.net/user/media/File-01296059748405248064.png",
+    name: "Contributor",
+    id: "contributor.png"
 }
 
-
-const Platinumbadge= {
-    url:"https://www.pngarts.com/files/4/Golden-Badge-PNG-Free-Download.png",
-    name:"Platinum"
+const WinnerBadge = {
+    url: "https://devcon2020.blob.core.windows.net/user/media/File-01296059593283993665.png",
+    name: "Winner",
+    id: "winner.png"
 }
-cache.set("DevCon-2020",Silverbadge)
-cache.set("WINNER",Goldbadge)
+
+const ParticipationBadge = {
+    url: "https://devcon2020.blob.core.windows.net/user/media/File-01296059247050752062.png",
+    name: "Participation",
+    id: "participation.png"
+}
+
+cache.set("Super Reader", ReaderBadge)
+cache.set("Contributor", ContributorBadge)
+cache.set("Winner", WinnerBadge)
+cache.set("Participation certificate", ParticipationBadge)
 
 
 let tempHeader = {
@@ -188,10 +199,11 @@ app.get('/visitor/display/:id', (req,response,callback)=>{
             url: registryBaseUrl+"/search"
         }
         request.post(option, function (err, res) {
+            var visitorDetail = undefined;
             if (res) {
                 var visitorDetails = res.body;
                 try{
-                var visitorDetail = visitorDetails.result.Visitor[0];
+                visitorDetail = visitorDetails.result.Visitor[0];
                 var entityArray = searchTemplate["request"]["entityType"]
                 entityArray.pop()
                 entityArray.push("VisitorActivity")
@@ -221,7 +233,7 @@ app.get('/visitor/display/:id', (req,response,callback)=>{
                         request:{
                             query:{
                              match_phrase:{
-                                 "recipient.id" :visCode 
+                                 "recipient.id": visitorDetail.osid
                              }
                             }
                         }
@@ -232,8 +244,6 @@ app.get('/visitor/display/:id', (req,response,callback)=>{
                         headers:tempHeader,
                         body:certTemplate,
                         url: certificateBaseUrl+"/search"
-                        
-                        
                      } 
 
                      request.post(option3, function (err, resp) {
