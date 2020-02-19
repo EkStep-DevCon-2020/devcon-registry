@@ -1,5 +1,38 @@
-stallCode, code,name,description
-STA1,IDE1,Multiplayer Quiz,School Quiz Competition
-STA1,IDE2,Library,School Library
-STA2,IDE3,Compute Lab,School Compute Lab
-STA2,IDE4,Interactive Session,Interactive Session in Training
+stallCode,code,name,description
+STA1,IDE1,Taxonomy Alignment,
+STA1,IDE2,Crossword Generation,
+STA1,IDE3,AR/VR Content,
+STA1,IDE4,Interactive Videos,
+STA1,IDE5,Live Coaching Session,
+STA1,IDE6,Creation Anywhere,
+STA1,IDE7,Video WIKI,
+STA1,IDE8,Auto Curation,
+STA2,IDE9,Attendance tracking,
+STA2,IDE10,Syllabus coverage,
+STA2,IDE11,Child profiles shared between teachers and parents,
+STA2,IDE12,Analytics on student data,
+STA2,IDE13,Embeddable player in other apps,
+STA2,IDE14,Player within content,
+STA2,IDE15,Voice command mode,
+STA2,IDE16,Accessibility,
+STA2,IDE17,Smart consumption,
+STA2,IDE18,Smart wall,
+STA2,IDE19,Home assessment,
+STA3,IDE20,Wordnet,"User will read the sentance, System will suggest the vers, Adjective, sysnonyms & images exist in the sentance"
+STA3,IDE21,Reading Quality Index,"User will read the sentance, System will record the sound & shows the accurate & speed "
+STA3,IDE22,Hangman,"Indic language hangman game. Supports English, Hindi & Kannada"
+STA3,IDE23,Multiplayer Game,Multiple taking quiz randomly from remote places
+STA3,IDE24,Adoptive Game,"Based on pre-condition & braching strategy, user will be guided to learn the concepts. "
+STA3,IDE25,Rock paper scissors,Rock paper scissors game: User is compete with bot(ML).
+STA3,IDE26,Beat the Bot,English to Hindi translation: User has to bet the bot(Anuvad translated text)
+STA3,IDE27,Career path,User will be guided to the carrier path based on goal section. How to achieve goal.
+STA4,IDE28,Magic Mirror,
+STA4,IDE29,Entry Gate,
+STA4,IDE30,Water Pot,
+STA4,IDE31,GitOps,
+STA4,IDE32,AIOps,
+STA4,IDE33,Anamoly Detection,
+STA5,IDE34,Publish reports from Superset,Visualize a report in Superset and directly publish the report from Superset to Sunbird portal
+STA5,IDE35,Voice based querying on Druid,Spell out queries in natural english to query data from Druid
+STA5,IDE36,Drill down on chart data,Drill down on various time granularities on charts with Druid data
+STA5,IDE37,Error Dashboards and Devcon Dashboard,Visualize various errors generated in the system using the Error dashboards. Visualization for various statistics from Devcon stalls/ideas.

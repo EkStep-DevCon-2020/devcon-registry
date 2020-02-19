@@ -1,3 +1,6 @@
-code,name,floor
-STA1,Creation,1st Floor
-STA2,School,1st Floor
+code,name
+STA1,Creation
+STA2,School
+STA3,Games
+STA4,Devops
+STA5,Analytics

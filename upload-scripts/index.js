@@ -20,7 +20,6 @@ var invoke_add = function (nIter, payload, callback) {
     var headerVars = {
         "Content-Type": "application/json",
         "Authorization": "Bearer ",
-        "x-authenticated-user-token": ""
     }
 
     if (dryRun) {
@@ -184,7 +183,7 @@ var addApiPayload = {
 
 
 // The URL where the registry is running
-var baseUrl = "http://localhost:8080"
+var baseUrl = "https://devcon.sunbirded.org/api/reg"
 
 // Whether you want to run in dryRun mode
 // true - API will not be invoked.
