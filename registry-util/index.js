@@ -15,6 +15,9 @@ var queue = new Queue();
 const server = http.createServer(app);
 const registryBaseUrl = "https://devcon.sunbirded.org/api/reg";
 const faceRegistryBaseUrl = "https://devcon.sunbirded.org/api/reghelper/face" 
+const certificateBaseUrl = "https://devcon.sunbirded.org/api/certreg/v1/certs"
+
+
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -35,9 +38,8 @@ const Platinumbadge= {
     url:"https://www.pngarts.com/files/4/Golden-Badge-PNG-Free-Download.png",
     name:"Platinum"
 }
-cache.set("Silver",Silverbadge)
-cache.set("Gold",Goldbadge)
-cache.set("Platinum", Platinumbadge)
+cache.set("DevCon-2020",Silverbadge)
+cache.set("WINNER",Goldbadge)
 
 
 let tempHeader = {
@@ -194,53 +196,82 @@ app.get('/visitor/display/:id', (req,response,callback)=>{
                 if(resp){
                     
                     var visitorActivityDetails =  resp.body
-                    var totalPoints = 0;
-                    var activityStall = []
-                    visitorActivityDetails.result.VisitorActivity.forEach(element => {
-                        let val = element.points;
-                        if(val==undefined){
-                            val = 0;
+
+                    var certTemplate={
+                        request:{
+                            query:{
+                             match_phrase:{
+                                 "recipient.id" :visCode 
+                             }
+                            }
                         }
-                        totalPoints += val;
-                        activityStall.push(element.stallCode)
+                    }
 
+                    let option3 = {
+                        json: true,
+                        headers:tempHeader,
+                        body:certTemplate,
+                        url: certificateBaseUrl+"/search"
+                        
+                        
+                     } 
 
-                    })
-
-                    var activityStallDetails =[]
-
-                    activityStall.forEach(element=>{
-
-                        var obj = {
-                            name: element,
-                            series:[{
-                                name:"timeSpent",
-                                value:100
-                            }]
+                     request.post(option3, function (err, resp) {
+                        if(res){
+                        var certResponse = resp.body
+                        var earnedBadges = []
+                        try{
+                            var certArray = certResponse.result.response.hits
+                            certArray.forEach(element => {                               
+                                const badgeName = element._source.data.badge.name
+                                earnedBadges.push(cache.get(badgeName))
+                            })
+                        }catch(e){
+                            console.log("Error in certification process or No certificate assigned"+e)
                         }
-                        activityStallDetails.push(obj)
-                    })
-                    var badge = ""
-                    if(totalPoints > 100 && totalPoints < 150){
-                        badge="Silver"
-                    }else if(totalPoints > 150 && totalPoints < 200){
-                        badge ="Gold"
-                    }else if(totalPoints > 200){
-                        badge="Platinum"
-                    }
-                    var earnedBadges = []
-                    const badgeInfo = cache.get(badge);
-                    if(badgeInfo != undefined){
-                         earnedBadges.push(badgeInfo)
-                    }
-                
-                    //activities
-                    visitorDetail['visitorActivity'] =activityStallDetails
 
-                    visitorDetail['pointsEarned'] = totalPoints
-                    visitorDetail['responseCode']="SUCCESSFUL"
-                    visitorDetail['badges'] = earnedBadges
-                    response.send(visitorDetail)
+                        var totalPoints = 0;
+                        var activityStall = []
+                        visitorActivityDetails.result.VisitorActivity.forEach(element => {
+                            let val = element.points;
+                            if(val==undefined){
+                                val = 0;
+                            }
+                            totalPoints += val;
+                            activityStall.push(element.stallCode)
+
+
+                        })
+                    
+                            var activityStallDetails =[]
+
+                            activityStall.forEach(element=>{
+
+                                var obj = {
+                                    name: element,
+                                    series:[{
+                                        name:"timeSpent",
+                                        value:100
+                                    }]
+                                }
+                                activityStallDetails.push(obj)
+                            })
+                          
+                                
+                            //activities
+                            visitorDetail['visitorActivity'] =activityStallDetails
+
+                            visitorDetail['pointsEarned'] = totalPoints
+                            visitorDetail['responseCode']="SUCCESSFUL"
+                            visitorDetail['badges'] = earnedBadges
+                            response.send(visitorDetail)
+                        }else{
+                            console.log(err)
+                        }
+                    
+                     })
+
+                    
 
                     
                 }
