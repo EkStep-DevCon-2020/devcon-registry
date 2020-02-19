@@ -79,6 +79,7 @@ app.post("/visitor/new", (req,response,callback)=>{
     request.post(option, function (err, res) {
         if (res) {
 
+               try{
                 var result = res.body
                 let option1 = {
                     json: true,
@@ -93,6 +94,15 @@ app.post("/visitor/new", (req,response,callback)=>{
                         console.log(err)
                     }
                 })
+            }catch(e){
+
+                console.log("Some Error occured"+e)
+                var resp = {
+       
+                    "status":"UNSUCCESSFUL"
+                 }
+                 response.send(resp)
+            }
 
         }else{
             console.log(err)
@@ -111,7 +121,7 @@ app.post("/visitor/new", (req,response,callback)=>{
 //Add Stall Details
 app.post("/visitor/exit", (req,response,callback)=>{
 
-    
+    try{  
     //update exit time of a visitor
      if(queue.size() == 4){
         queue.dequeue();
@@ -129,6 +139,13 @@ app.post("/visitor/exit", (req,response,callback)=>{
          responseCode:"OK"
      }
      response.send(resp)
+    }catch(e){
+
+        resp = {
+            responseCode:"UNSUCCESSFUL"
+        }
+        response.send(resp)
+    }
 
   
 })
@@ -172,6 +189,7 @@ app.get('/visitor/display/:id', (req,response,callback)=>{
         request.post(option, function (err, res) {
             if (res) {
                 var visitorDetails = res.body;
+                try{
                 var visitorDetail = visitorDetails.result.Visitor[0];
                 var entityArray = searchTemplate["request"]["entityType"]
                 entityArray.pop()
@@ -271,12 +289,21 @@ app.get('/visitor/display/:id', (req,response,callback)=>{
                     
                      })
 
-                    
+                
 
                     
+                     
+                    }
+                })
+              }catch(e){
+                console.log("Some Error"+e)
+                var resp = {
+                    responseCode:"UNSUCCESSFUL"
                 }
-              })
+                response.send(resp)
+              }
             }
+        
         })
         
     }else{
