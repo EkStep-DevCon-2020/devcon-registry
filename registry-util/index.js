@@ -43,7 +43,7 @@ cache.set("WINNER",Goldbadge)
 
 
 let tempHeader = {
-    'Authorization': process.env.DEVCON_API_KEY,
+    'Authorization': "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiIyZWU4YTgxNDNiZWE0NDU4YjQxMjcyNTU5ZDBhNTczMiJ9.7m4mIUaiPwh_o9cvJuyZuGrOdkfh0Nm0E_25Cl21kxE",
     'Content-type': 'application/json'
 }
 
@@ -192,7 +192,7 @@ app.get('/visitor/display/:id', (req,response,callback)=>{
                 try{
                 var visitorDetail = visitorDetails.result.Visitor[0];
                 var entityArray = searchTemplate["request"]["entityType"]
-                entityArray.pop()
+                entityArray.pop(git s)
                 entityArray.push("VisitorActivity")
                 const visCode = visitorDetail.code
                 filterQ ={
