@@ -195,6 +195,7 @@ app.get('/visitor/display/:id', (req,response,callback)=>{
                 entityArray.pop()
                 entityArray.push("VisitorActivity")
                 const visCode = visitorDetail.code
+                console.log("Visitor Code:" +visCode)
                 filterQ ={
                     visitorCode:{
                         eq:visCode
@@ -287,10 +288,7 @@ app.get('/visitor/display/:id', (req,response,callback)=>{
                             console.log(err)
                         }
                     
-                     })
-
-                
-
+                     })git
                     
                      
                     }
@@ -314,9 +312,6 @@ app.get('/visitor/display/:id', (req,response,callback)=>{
     
     }
   
-
-  
-    
 
 
   
