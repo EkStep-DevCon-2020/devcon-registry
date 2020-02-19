@@ -18,6 +18,7 @@ const server = http.createServer(app);
 const registryBaseUrl = "https://devcon.sunbirded.org/api/reg";
 const faceRegistryBaseUrl = "https://devcon.sunbirded.org/api/reghelper/face" 
 const certificateBaseUrl = "https://devcon.sunbirded.org/api/certreg/v1/certs"
+const druidApiUrl = " http://50.1.0.12:8082/druid/v2"
 
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -135,21 +136,27 @@ app.post("/visitor/exit", (req,response,callback)=>{
 
     try{  
     //update exit time of a visitor
+    var data = undefined
      if(queue.size() == 4){
         queue.dequeue();
-        var data = req.body.request
-
+        data = req.body.request
         queue.enqueue(data)
      }else{
 
-        var data = req.body.request
-        queue.enqueue(data)
+        data = req.body.request
 
      }
- 
-     resp = {
-         responseCode:"OK"
-     }
+     if(data.osid || data.visitorCode){
+        queue.enqueue(data)
+        resp = {
+            responseCode:"OK"
+        }
+    }else{
+        resp = {
+            responseCode:"UNSUCCESSFUL"
+        }
+    }
+   
      response.send(resp)
     }catch(e){
 
@@ -249,57 +256,75 @@ app.get('/visitor/display/:id', (req,response,callback)=>{
                      request.post(option3, function (err, resp) {
                         if(res){
                         var certResponse = resp.body
-                        var earnedBadges = []
-                        try{
-                            var certArray = certResponse.result.response.hits
-                            certArray.forEach(element => {                               
-                                const badgeName = element._source.data.badge.name
-                                earnedBadges.push(cache.get(badgeName))
-                            })
-                        }catch(e){
-                            console.log("Error in certification process or No certificate assigned"+e)
-                        }
-
-                        var totalPoints = 0;
-                        var activityStall = []
-                        visitorActivityDetails.result.VisitorActivity.forEach(element => {
-                            let val = element.points;
-                            if(val==undefined){
-                                val = 0;
-                            }
-                            totalPoints += val;
-                            activityStall.push(element.stallCode)
+                        
+                        var queryTemplate = getDruidTemplate(visitorDetail.osid)
+                        let option4 = {
+                            json: true,
+                            headers:tempHeader,
+                            body:queryTemplate,
+                            url: druidApiUrl
+                         } 
+    
+                         request.post(option4, function (err, resp) {
+                            if(res){
 
 
-                        })
-                    
+                            var stats = resp.body
+
                             var activityStallDetails =[]
+                            try{
+                                stats.forEach(element =>{
+                                    
+                                    var obj = {
+                                        name: element.event.stallId,
+                                        series:[{
+                                            name:"timeSpent",
+                                            value:element.event.total_time_spent
+                                        }]
+                                    }
+                                })
 
-                            activityStall.forEach(element=>{
-
-                                var obj = {
-                                    name: element,
-                                    series:[{
-                                        name:"timeSpent",
-                                        value:100
-                                    }]
-                                }
                                 activityStallDetails.push(obj)
-                            })
-                          
-                                
-                            //activities
-                            visitorDetail['visitorActivity'] =activityStallDetails
+                           }catch(e){
+                               console.log("Error getting druid data")
+                           }
+                            var earnedBadges = []
+                            try{
+                                var certArray = certResponse.result.response.hits
+                                certArray.forEach(element => {                               
+                                    const badgeName = element._source.data.badge.name
+                                    earnedBadges.push(cache.get(badgeName))
+                                })
+                            }catch(e){
+                                console.log("Error in certification process or No certificate assigned"+e)
+                            }
 
-                            visitorDetail['pointsEarned'] = totalPoints
-                            visitorDetail['responseCode']="SUCCESSFUL"
-                            visitorDetail['badges'] = earnedBadges
-                            response.send(visitorDetail)
+                            var totalPoints = 0;
+                            visitorActivityDetails.result.VisitorActivity.forEach(element => {
+                                let val = element.points;
+                                if(val==undefined){
+                                    val = 0;
+                                }
+                                totalPoints += val;
+
+                            })                            
+                                    
+                                //activities
+                                visitorDetail['visitorActivity'] =activityStallDetails
+
+                                visitorDetail['pointsEarned'] = totalPoints
+                                visitorDetail['responseCode']="SUCCESSFUL"
+                                visitorDetail['badges'] = earnedBadges
+                                response.send(visitorDetail)
+                            }else{
+                                console.log(err)
+                            }
+                          })
                         }else{
                             console.log(err)
                         }
                     
-                     })git
+                     })
                     
                      
                     }
@@ -327,6 +352,51 @@ app.get('/visitor/display/:id', (req,response,callback)=>{
 
   
 })
+
+
+function getDruidTemplate(osid)
+{
+
+    var queryTemplate ={
+        queryType: "groupBy",
+        dataSource: "devcon-events",
+        intervals: [
+            "2020-02-20T00:00:00.000Z/2020-02-22T00:00:00.000Z"
+        ],
+        dimensions: [
+            "profileId",
+            "stallId",
+            "ideaId"
+        ],
+        aggregations: [
+            {
+                type: "doubleSum",
+                name: "total_time_spent",
+                fieldName: "edata_duration"
+            }
+        ],
+        filter: {
+            type: "and",
+            fields: [
+                {
+                    type: "selector",
+                    dimension: "eid",
+                    value: "DC_EXIT"
+                },
+                {
+                    type: "selector",
+                    dimension: "profileId",
+                    value: osid
+                }
+            ]
+        },
+        granularity: "all"
+    }
+
+    return queryTemplate
+}
+
+
 
 function createParticipationCertificate(name,id,image) {
 // creating participation certificate async
