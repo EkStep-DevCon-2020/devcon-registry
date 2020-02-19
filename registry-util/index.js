@@ -1,3 +1,5 @@
+// "use strict";
+
 const express = require("express");
 const http = require("http");
 const app = express();
@@ -134,7 +136,7 @@ var lastDisplayId = 0
 
 //Add Stall Details
 app.post("/visitor/exit", (req,response,callback)=>{
-
+    var resp
     try{  
     //update exit time of a visitor
     var data = req.body.request
@@ -181,80 +183,8 @@ app.get('/visitor/display/sample', (req,response,callback)=>{
         "name": "Satish",
         "photo": "https://akm-img-a-in.tosshub.com/indiatoday/images/story/201702/srikant_647_022817115157.jpg",
         "osid": "1-dc94ed01-e5e5-4f8c-ad53-26ecd4b62459",
-        "visitorActivity": [
-          {
-            "name": "STA3",
-            "series": [
-              {
-                "name": "timeSpent",
-                "value": 18370
-              }
-            ]
-          },
-          {
-            "name": "STA1",
-            "series": [
-              {
-                "name": "timeSpent",
-                "value": 1870
-              }
-            ]
-          },
-          {
-            "name": "STA4",
-            "series": [
-              {
-                "name": "timeSpent",
-                "value": 18370
-              }
-            ]
-          },
-          {
-            "name": "STA5",
-            "series": [
-              {
-                "name": "timeSpent",
-                "value": 1370
-              }
-            ]
-          },
-          {
-            "name": "STA6",
-            "series": [
-              {
-                "name": "timeSpent",
-                "value": 1830
-              }
-            ]
-          },
-          {
-            "name": "STA7",
-            "series": [
-              {
-                "name": "timeSpent",
-                "value": 8370
-              }
-            ]
-          },
-          {
-            "name": "STA10",
-            "series": [
-              {
-                "name": "timeSpent",
-                "value": 13700
-              }
-            ]
-          },
-          {
-            "name": "STA11",
-            "series": [
-              {
-                "name": "timeSpent",
-                "value": 18370
-              }
-            ]
-          }
-        ],
+        "visitorActivity":[{"name":"STA3","series":[{"name":"timeSpent","value":18370}]},{"name":"STA1","series":[{"name":"timeSpent","value":1870}]},{"name":"STA4","series":[{"name":"timeSpent","value":18370}]},{"name":"STA5","series":[{"name":"timeSpent","value":1370}]},{"name":"STA6","series":[{"name":"timeSpent","value":1830}]},{"name":"STA7","series":[{"name":"timeSpent","value":8370}]},{"name":"STA10","series":[{"name":"timeSpent","value":13700}]},{"name":"STA11","series":[{"name":"timeSpent","value":18370}]}],
+        "visitorIdeaActivity":[{"name":"IDE1","series":[{"name":"timeSpent","value":18370}]},{"name":"STA1","series":[{"name":"timeSpent","value":1870}]},{"name":"STA4","series":[{"name":"timeSpent","value":18370}]},{"name":"STA5","series":[{"name":"timeSpent","value":1370}]},{"name":"STA6","series":[{"name":"timeSpent","value":1830}]},{"name":"STA7","series":[{"name":"timeSpent","value":8370}]},{"name":"STA10","series":[{"name":"timeSpent","value":13700}]},{"name":"STA11","series":[{"name":"timeSpent","value":18370}]}],
         "pointsEarned": 0,
         "responseCode": "SUCCESSFUL",
         "badges": [
@@ -388,25 +318,35 @@ app.get('/visitor/display/:id', (req,response,callback)=>{
                             var stats = resp.body
 
                             var activityStallDetails =[]
-                            var map = new HashMap();
-
+                            var activityIdeaDetails = []
+                            var stallTSMap = new HashMap();
+                            var ideaTSMap = new HashMap();
                             try{
 
                                 stats.forEach(element =>{
-                                   const stallId = element.event.stallId
-                                    if(map.get(stallId)){
-                                       
-                                        var time = map.get(stallId)
-                                        time += element.event.total_time_spent
-                                        map.set(stallId,time)
-                                    }else{
-                                        
-                                        map.set(stallId,element.event.total_time_spent)
-                                    }
+                                    console.log(JSON.stringify(element))
+                                   const ideaId = element.event[ideaDimension]
+                                   const stallId = element.event[stallDimension]
+                                   console.log("ideaId " + ideaId + " stallId " + stallId)
+                                   if (ideaId != undefined) {
+                                    ideaTSMap.set(ideaId, element.event.total_time_spent)
+                                   }
+
+                                   if (stallId != undefined) {
                                    
+                                    if(stallTSMap.get(stallId)){
+                                       
+                                        var time = stallTSMap.get(stallId)
+                                        time += element.event.total_time_spent
+                                        stallTSMap.set(stallId,time)
+                                    } else{
+                                        stallTSMap.set(stallId,element.event.total_time_spent)
+                                    }
+                                }
+                                    
                                 })
 
-                                map.forEach(function(key,value){
+                                stallTSMap.forEach(function(key,value){
                                     var obj = {
                                         name: value,
                                         series:[{
@@ -417,7 +357,16 @@ app.get('/visitor/display/:id', (req,response,callback)=>{
                                     activityStallDetails.push(obj)
                                 })
 
-
+                                ideaTSMap.forEach(function(key,value){
+                                    var obj = {
+                                        name: value,
+                                        series:[{
+                                            name:"timeSpent",
+                                            value:key
+                                        }]
+                                    }
+                                    activityIdeaDetails.push(obj)
+                                })
 
                            }catch(e){
                                console.log("Error getting druid data")
@@ -444,8 +393,8 @@ app.get('/visitor/display/:id', (req,response,callback)=>{
                             })                            
                                     
                                 //activities
-                                visitorDetail['visitorActivity'] =activityStallDetails
-
+                                visitorDetail['visitorActivity'] = activityStallDetails
+                                visitorDetail['visitorIdeaActivity'] = activityIdeaDetails
                                 visitorDetail['pointsEarned'] = totalPoints
                                 visitorDetail['responseCode']="SUCCESSFUL"
                                 visitorDetail['badges'] = earnedBadges
@@ -487,6 +436,8 @@ app.get('/visitor/display/:id', (req,response,callback)=>{
   
 })
 
+var stallDimension = "stallName"
+var ideaDimension = "ideaName"
 
 function getDruidTemplate(osid)
 {
@@ -498,9 +449,9 @@ function getDruidTemplate(osid)
             "2020-02-18T00:00:00.000Z/2020-02-22T00:00:00.000Z"
         ],
         dimensions: [
-            "profileId",
-            "stallId",
-            "ideaId"
+            "profileName",
+            stallDimension,
+            ideaDimension
         ],
         aggregations: [
             {
