@@ -294,10 +294,10 @@ app.get('/visitor/display/:id', (req,response,callback)=>{
 
                                 map.forEach(function(key,value){
                                     var obj = {
-                                        name: key,
+                                        name: value,
                                         series:[{
                                             name:"timeSpent",
-                                            value:value
+                                            value:key
                                         }]
                                     }
                                     activityStallDetails.push(obj)
