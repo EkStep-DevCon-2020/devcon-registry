@@ -192,7 +192,7 @@ app.get('/visitor/display/:id', (req,response,callback)=>{
                 try{
                 var visitorDetail = visitorDetails.result.Visitor[0];
                 var entityArray = searchTemplate["request"]["entityType"]
-                entityArray.pop(git s)
+                entityArray.pop()
                 entityArray.push("VisitorActivity")
                 const visCode = visitorDetail.code
                 filterQ ={
