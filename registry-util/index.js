@@ -289,7 +289,7 @@ app.get('/visitor/display/:id', (req,response,callback)=>{
                             console.log(err)
                         }
                     
-                     })git
+                     })
                     
                      
                     }
