@@ -12,10 +12,6 @@ var HashMap = require('hashmap');
 dotenv.config();
 
 
-var Queue = require('queue-fifo');
-var queue = new Queue();
-
-
 const server = http.createServer(app);
 const registryBaseUrl = "https://devcon.sunbirded.org/api/reg";
 const faceRegistryBaseUrl = "https://devcon.sunbirded.org/api/reghelper/face" 
@@ -133,23 +129,23 @@ app.post("/visitor/new", (req,response,callback)=>{
   
 })
 
+var displayArr[]
+var lastDisplayId = 0
+
 //Add Stall Details
 app.post("/visitor/exit", (req,response,callback)=>{
 
     try{  
     //update exit time of a visitor
-    var data = undefined
-     if(queue.size() == 4){
-        queue.dequeue();
-        data = req.body.request
-        queue.enqueue(data)
-     }else{
+    var data = req.body.request
+    if (lastDisplayId == 4) {
+        // reset it
+        lastDisplayId = 0
+    }
+    displayArr[lastDisplayId%4] = data
+    lastDisplayId++
 
-        data = req.body.request
-
-     }
-     if(data.osid || data.visitorCode){
-        queue.enqueue(data)
+     if(data.osid || data.visitorCode) {
         resp = {
             responseCode:"OK"
         }
@@ -294,18 +290,14 @@ app.get('/visitor/display/sample', (req,response,callback)=>{
 app.get('/visitor/display/:id', (req,response,callback)=>{
 
     const id = req.params.id
-    var qList = queue._list;
-
-    if(qList.size >= 1){
+    if(displayArr.length >= 1){
         var searchTemplate={
             request:{
                 entityType:["Visitor"]
-                
             }
         }
 
-        var profileList = qList.toArray()
-        var data = profileList[id-1]
+        var data = displayArr[id-1]
         if(data.osid == undefined){
             var filterQ = {
                 code:{eq:data.visitorCode}
