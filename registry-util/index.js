@@ -129,7 +129,7 @@ app.post("/visitor/new", (req,response,callback)=>{
   
 })
 
-var displayArr[]
+var displayArr = []
 var lastDisplayId = 0
 
 //Add Stall Details
@@ -296,16 +296,24 @@ app.get('/visitor/display/:id', (req,response,callback)=>{
                 entityType:["Visitor"]
             }
         }
-
-        var data = displayArr[id-1]
-        if(data.osid == undefined){
-            var filterQ = {
-                code:{eq:data.visitorCode}
+        var filterQ = undefined
+        try{
+            var data = displayArr[id-1]
+            if(data.osid == undefined){
+                 filterQ = {
+                    code:{eq:data.visitorCode}
+                }
+            }else{
+                 filterQ = {
+                    osid:{eq:data.osid}
+                }
             }
-        }else{
-            var filterQ = {
-                osid:{eq:data.osid}
+        }catch(e){
+            console.log("Error no data")
+            var resp = {
+                responseCode:"UNSUCCESSFUL"
             }
+            response.send(resp)
         }
 
         searchTemplate.request['filters']=filterQ
