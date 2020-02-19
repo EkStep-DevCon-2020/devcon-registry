@@ -19,8 +19,7 @@
       "title": "The stall Schema",
       "required": [
         "code",
-        "name",
-        "floor"
+        "name"
       ],
       "additionalProperties": false,
       "properties": {
@@ -32,10 +31,6 @@
           "$id": "#/properties/name",
           "type": "string",
           "title": "Stall name"
-        },
-        "floor": {
-          "$id": "#/properties/name",
-          "type": "string"
         }
       }
     }

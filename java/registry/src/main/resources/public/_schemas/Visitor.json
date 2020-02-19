@@ -17,14 +17,12 @@
       "type": "object",
       "title": "The visitor Schema",
       "required": [
-        "name",
-        "code"
+        "name"
       ],
-      "optional": [
-        "photo"
-      ],
+      
       "additionalProperties": false,
-      "properties": {       
+      "properties": {
+       
         "code": {
           "$id": "#/properties/visitorCode",
           "$ref": "Common.json#/definitions/IdDevCon"
@@ -40,6 +38,7 @@
           "format":"URI",
           "title": "Photo Url of visitor"
         }
+
       }
     }
   },

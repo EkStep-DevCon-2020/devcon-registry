@@ -22,12 +22,11 @@
       "title": "The VisitorActivity Schema",
       "required": [
         "visitorCode",
-        "stallCode",
-        "entryTimestamp"
+        "stallCode"
       ],
       "additionalProperties": false,
       "optional": [
-    	  "points"
+	"points"
       ],
       "properties": {
         
@@ -41,12 +40,11 @@
           "type":"string",
           "$comment": "Stall code"
         },
-        "points": {
-          "$id": "#/properties/points",
-          "type":"integer",
-          "default":0,
-          "$comment": "Points receive in activity"
-        }, 
+         "ideaCode": {
+          "$id": "#/properties/ideaCode",
+          "type":"string",
+          "$comment": "Idea code"
+        },
         "entryTimestamp" : {
           "type": "string",
           "$comment": "Timestamp",
@@ -62,7 +60,13 @@
           "examples": [
             "1273987329879"
           ]
-        }
+        },
+        "points": {
+            "$id": "#/properties/points",
+            "type": "integer",
+            "default":0,
+            "$comment": "points given to this visitor"
+          }
       }
     }
   }
