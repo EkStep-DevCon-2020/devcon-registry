@@ -168,11 +168,128 @@ app.post("/visitor/exit", (req,response,callback)=>{
 })
 
 
+
+//dummy end point
+
+app.get('/visitor/display/sample', (req,response,callback)=>{
+
+    var reskp={
+        "osUpdatedAt": "2020-02-19T12:29:01.933Z",
+        "code": "SATISH90",
+        "osCreatedAt": "2020-02-19T12:29:01.933Z",
+        "@type": "Visitor",
+        "name": "Satish",
+        "photo": "https://akm-img-a-in.tosshub.com/indiatoday/images/story/201702/srikant_647_022817115157.jpg",
+        "osid": "1-dc94ed01-e5e5-4f8c-ad53-26ecd4b62459",
+        "visitorActivity": [
+          {
+            "name": "STA3",
+            "series": [
+              {
+                "name": "timeSpent",
+                "value": 18370
+              }
+            ]
+          },
+          {
+            "name": "STA1",
+            "series": [
+              {
+                "name": "timeSpent",
+                "value": 1870
+              }
+            ]
+          },
+          {
+            "name": "STA4",
+            "series": [
+              {
+                "name": "timeSpent",
+                "value": 18370
+              }
+            ]
+          },
+          {
+            "name": "STA5",
+            "series": [
+              {
+                "name": "timeSpent",
+                "value": 1370
+              }
+            ]
+          },
+          {
+            "name": "STA6",
+            "series": [
+              {
+                "name": "timeSpent",
+                "value": 1830
+              }
+            ]
+          },
+          {
+            "name": "STA7",
+            "series": [
+              {
+                "name": "timeSpent",
+                "value": 8370
+              }
+            ]
+          },
+          {
+            "name": "STA10",
+            "series": [
+              {
+                "name": "timeSpent",
+                "value": 13700
+              }
+            ]
+          },
+          {
+            "name": "STA11",
+            "series": [
+              {
+                "name": "timeSpent",
+                "value": 18370
+              }
+            ]
+          }
+        ],
+        "pointsEarned": 0,
+        "responseCode": "SUCCESSFUL",
+        "badges": [
+          {
+            "url": "https://devcon2020.blob.core.windows.net/user/media/File-01296059646652416059.png",
+            "name": "Winner",
+            "id": "winner.png"
+          },
+          {
+            "url": "https://devcon2020.blob.core.windows.net/user/media/File-01296059748405248064.png",
+            "name": "Contributor",
+            "id": "contributor.png"
+          },
+          {
+            "url": "https://devcon2020.blob.core.windows.net/user/media/File-01296059593283993665.png",
+            "name": "Super Reader",
+            "id": "reader_big.png"
+          },
+          {
+            "url": "https://devcon2020.blob.core.windows.net/user/media/File-01296059247050752062.png",
+            "name": "Participation",
+            "id": "participation.png"
+          }
+        ]
+      };
+    response.send(reskp);
+
+})
+
+
+
 //Add Stall Details
 app.get('/visitor/display/:id', (req,response,callback)=>{
 
     const id = req.params.id
-
     if(displayArr.length >= 1){
         var searchTemplate={
             request:{
@@ -260,8 +377,6 @@ app.get('/visitor/display/:id', (req,response,callback)=>{
     
                          request.post(option4, function (err, resp) {
                             if(res){
-
-
                             var stats = resp.body
 
                             var activityStallDetails =[]
@@ -372,7 +487,7 @@ function getDruidTemplate(osid)
         queryType: "groupBy",
         dataSource: "devcon-events",
         intervals: [
-            "2020-02-20T00:00:00.000Z/2020-02-22T00:00:00.000Z"
+            "2020-02-18T00:00:00.000Z/2020-02-22T00:00:00.000Z"
         ],
         dimensions: [
             "profileId",
