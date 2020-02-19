@@ -238,7 +238,7 @@ app.get('/visitor/display/:id', (req,response,callback)=>{
                     visitorDetail['visitorActivity'] =activityStallDetails
 
                     visitorDetail['pointsEarned'] = totalPoints
-                    visitorDetail['status']="SUCCESSFUL"
+                    visitorDetail['responseCode']="SUCCESSFUL"
                     visitorDetail['badges'] = earnedBadges
                     response.send(visitorDetail)
 
@@ -250,7 +250,7 @@ app.get('/visitor/display/:id', (req,response,callback)=>{
         
     }else{
         var resp = {
-            status:"UNSUCCESSFUL"
+            responseCode:"UNSUCCESSFUL"
         }
         response.send(resp)
     
