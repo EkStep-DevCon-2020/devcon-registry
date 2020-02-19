@@ -6,6 +6,8 @@ var cors = require("cors")
 const request = require('request')
 const dotenv = require('dotenv');
 const axios = require('axios').default;
+var HashMap = require('hashmap');
+
 
 dotenv.config();
 
@@ -272,19 +274,37 @@ app.get('/visitor/display/:id', (req,response,callback)=>{
                             var stats = resp.body
 
                             var activityStallDetails =[]
+                            var map = new HashMap();
+
                             try{
+
                                 stats.forEach(element =>{
-                                    
-                                    var obj = {
-                                        name: element.event.stallId,
-                                        series:[{
-                                            name:"timeSpent",
-                                            value:element.event.total_time_spent
-                                        }]
+                                   const stallId = element.event.stallId
+                                    if(map.get(stallId)){
+                                       
+                                        var time = map.get(stallId)
+                                        time += element.event.total_time_spent
+                                        map.set(stallId,time)
+                                    }else{
+                                        
+                                        map.set(stallId,element.event.total_time_spent)
                                     }
+                                   
                                 })
 
-                                activityStallDetails.push(obj)
+                                map.forEach(function(key,value){
+                                    var obj = {
+                                        name: key,
+                                        series:[{
+                                            name:"timeSpent",
+                                            value:value
+                                        }]
+                                    }
+                                    activityStallDetails.push(obj)
+                                })
+
+
+
                            }catch(e){
                                console.log("Error getting druid data")
                            }

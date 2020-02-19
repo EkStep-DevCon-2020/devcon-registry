@@ -15,6 +15,7 @@
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "hashmap": "^2.4.0",
     "queue-fifo": "^0.2.6",
     "request": "^2.88.2"
   }
