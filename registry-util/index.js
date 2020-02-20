@@ -13,9 +13,10 @@ var HashMap = require('hashmap');
 
 dotenv.config();
 
+const port =9090
 
 const server = http.createServer(app);
-const registryBaseUrl = "http://localhost:8080";
+const registryBaseUrl = "https://devcon.sunbirded.org/api/reg";
 const faceRegistryBaseUrl = "https://devcon.sunbirded.org/api/reghelper/face" 
 const certificateBaseUrl = "https://devcon.sunbirded.org/api/certreg/v1/certs"
 const druidApiUrl = " http://50.1.0.12:8082/druid/v2"
@@ -528,6 +529,6 @@ axios.post('https://devcon.sunbirded.org/api/reghelper/certificate/v1/create',
     console.log("the response got ",response.data);
   })
 }
-server.listen(9091, function () {
-    console.log("util service listening on port " + 9090);
+server.listen(port, function () {
+    console.log("util service listening on port " + port);
 })
