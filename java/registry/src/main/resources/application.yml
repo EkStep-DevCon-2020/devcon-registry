@@ -38,7 +38,7 @@ registry:
 # limits: search result to value provided as default
 search:
   offset: ${search_offset:0}
-  limit: ${search_limit:100}
+  limit: ${search_limit:2000}
   # The search mechanism to use. Values could be either NativeSearchService or ElasticSearchService
   #   If NativeSearchService, then every search API uses the same database as the writes. May
   # not offer high speed reads. This is the default search service, if this config is not provided.
@@ -94,10 +94,10 @@ database:
       #     ** Example - Postgres - jdbc:postgresql://localhost:5432/yourdb
       #     * 3. NoSQL  databases (Cassandra)
       #     ** Example - cassandra - jdbc:cassandra://localhost:9160/yourdb
-      uri: ${connectionInfo_uri:jdbc:postgresql://localhost:5432/opensaberdb}
+      uri: ${connectionInfo_uri:jdbc:postgresql://50.1.0.8:5432/opensaberdb}
 
       username: ${connectionInfo_username:postgres}
-      password: ${connectionInfo_password:opensaberdb}
+      password: ${connectionInfo_password:devcon2020}
 
       # Any other shard information follows...
     #-
@@ -166,7 +166,7 @@ authentication:
   enabled: ${authentication_enabled:false}
 
 visitor:
-  idStart: ${visitor_idStart:1}
+  idStart: ${visitor_idStart:100}
 
 
 keycloak:

@@ -293,6 +293,22 @@ public class RegistryServiceImpl implements RegistryService {
                 // Replace osid without shard details
                 String prefix = shard.getShardLabel() + RecordIdentifier.getSeparator();
                 JSONUtil.trimPrefix((ObjectNode) inputNode, prefix);
+                if("Visitor".equals(entityType)) {
+	                JsonNode node =inputNode.get(entityType);
+	                if(node.get("photo")!= null) {
+	                	
+	                    String photoUrl = node.get("photo").toString();
+	                    String []urlList = photoUrl.split("/");
+	                    String url = urlList[urlList.length-1];
+	                    url = prefix+url;
+	                    urlList[urlList.length-1]=url;
+	                    String urlJoin = String.join("/", urlList);
+	                    String phto = urlJoin.substring(1, urlJoin.length()-1);
+	                    ((ObjectNode) node).put("photo", phto);
+	                    logger.info(inputNode.toString());
+	                }
+                }
+                
             }
 
             // The entity type is a child and so could be different from parent entity type.
